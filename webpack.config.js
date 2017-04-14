@@ -38,6 +38,14 @@ module.exports = {
       ]
     },
 
+    devServer: {
+        contentBase: path.join(__dirname, 'build'),
+        compress: true,
+        port: 9000,
+        stats: 'errors-only',
+        open: true
+    },
+
     plugins: [
         new webpack.NoEmitOnErrorsPlugin(),
 
