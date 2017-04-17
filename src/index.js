@@ -19,6 +19,7 @@ class Btn extends Component {
     render() {
         return (
             <div>
+                <input type="text" placeholder="hello"/>
                 <button onClick={this.determineDate}>getDate</button>
             </div>
         )

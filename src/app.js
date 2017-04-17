@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import './style.scss';
+import React, { Component } from 'react';
+import './app.scss';
 
 function component () {
     const element = document.createElement('div');
@@ -11,19 +12,3 @@ function component () {
 }
 
 document.body.appendChild(component());
-
-function solution(A, K) {
-    let lengthA = A.length;
-    if (K > lengthA) {
-        if(K % lengthA) {
-            let X = K - Math.floor(K/lengthA);
-            let subA = A.slice(lengthA - X - 1, lengthA);
-            A.splice(lengthA - X - 1, lengthA);
-            return [...subA, ...A];
-        } else {return A;}
-    } else {
-        let subA = A.slice(lengthA - X - 1, lengthA);
-        A.splice(lengthA - X - 1, lengthA);
-        return [...subA, ...A];
-    }
-}
