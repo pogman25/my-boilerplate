@@ -1,21 +1,46 @@
 const webpack = require('webpack');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
+
+module.exports = function(env) {
+    return require(`./config/webpack.config.${env}.js`)
+};
+
+/*
+ const merge = require('webpack-merge');
+ const path = require('path');
+ const HtmlWebpackPlugin = require('html-webpack-plugin');
+ const ExtractTextPlugin = require('extract-text-webpack-plugin');
+ const autoprefixer = require('autoprefixer');
+
+
+ const common = require('./config/webpack.config.common');
+ const production = require('./config/webpack.config.prod');
+ const development = require('./config/webpack.config.dev');
 
 const isProd = process.env.NODE_ENV === 'production';
-const cssDev = ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'];
+
+const TARGET = process.env.npm_lifecycle_event;
+
+if(TARGET === 'build') {
+    module.exports = merge(common, production);
+}
+
+if(TARGET === 'start') {
+    module.exports = merge(common, development);
+}
+
+
+
+const cssDev = ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'];
 const cssProd = ExtractTextPlugin.extract({
     fallback: 'style-loader',
-    loader: ['css-loader', 'sass-loader', 'postcss-loader'],
+    loader: ['css-loader', 'postcss-loader', 'sass-loader'],
     publicPath: '/build'
 });
 const cssConfig = isProd ? cssProd : cssDev;
 
 module.exports = {
 
-    entry: {
+    entry: {        //две точки входа
         app: './src/app.js',
         index: './src/index.js',
     },
@@ -30,32 +55,32 @@ module.exports = {
     module: {
       rules: [
           {
-              test: /\.pug$/,
+              test: /\.pug$/,  //конвертируем pug в html
               use: 'pug-loader'
           },
           {
-          test: /\.(js|jsx)$/,
+          test: /\.(js|jsx)$/,          //подключаем js
           exclude: /(node_modules)/,
           use: [{
               loader: 'babel-loader',
               options: {
                   presets: [['es2015', {modules: false}], 'react'],
-                  plugins: ['syntax-dynamic-import']
+                  plugins: ['syntax-dynamic-import']        //динамическая подгрузка
               }
             }]
           },
           {
-              test: /\.scss$/,
+              test: /\.scss$/,  //подключаем стили, при продакшине выгружаем в отдельный файл
               use: cssConfig
           },
           {
-              test: /\.(png|jpg|jpeg|svg|gif)$/,
+              test: /\.(png|jpg|jpeg|svg|gif)$/,   //обработчик изображений
               use: 'file-loader?name=images/[name].[ext]'
           }
       ]
     },
 
-    devServer: {
+    devServer: {            //сервер для девелопмента
         contentBase: path.join(__dirname, 'build'),
         compress: true,
         hot: true,
@@ -65,12 +90,12 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),  //не менять файлы при ошибке
 
         new webpack.LoaderOptionsPlugin({
             options: {
                 postcss: [
-                        autoprefixer({
+                        autoprefixer({          //префиксер для css
                             browsers: [
                                 '>1%',
                                 'last 4 versions',
@@ -141,4 +166,4 @@ if (isProd) {
             }
         })
     );
-}
+}*/
