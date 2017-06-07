@@ -21,6 +21,7 @@ module.exports = Merge(commonConfig, {
             contentBase: path.join(__dirname, '/../build'),
             compress: true,
             hot: true,
+            historyApiFallback: true,
             port: 9000,
             stats: 'errors-only',
             open: true
