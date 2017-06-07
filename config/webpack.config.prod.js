@@ -37,6 +37,12 @@ module.exports = Merge(commonConfig, {
                 }
             }),
 
+            new webpack.DefinePlugin({
+                'process.env': {
+                    'NODE_ENV': JSON.stringify('production')
+                }
+            }),
+
             new ExtractTextPlugin({
                 filename: "[name].css",
                 allChunks: true}),
@@ -56,4 +62,4 @@ module.exports = Merge(commonConfig, {
                 }
             })
         ]
-    })
+    });
