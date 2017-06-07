@@ -23,6 +23,7 @@ module.exports = Merge(commonConfig, {
         plugins: [
 
             new webpack.LoaderOptionsPlugin({
+                minimize: true,
                 options: {
                     postcss: [
                         autoprefixer({          //префиксер для css
