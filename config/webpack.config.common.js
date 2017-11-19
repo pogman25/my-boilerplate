@@ -20,15 +20,20 @@ module.exports = {
                 use: 'pug-loader'
             },
             {
-                test: /\.(js|jsx)$/,          //подключаем js
-                exclude: /(node_modules)/,
+                test: /\.(ts|tsx)$/,          //подключаем js
+                exclude: /node_modules/,
                 use: [{
-                    loader: 'babel-loader',
+                    loader: 'babel-loader!awesome-typescript-loader',
                     options: {
                         presets: [['es2015', {modules: false}], 'react'],
                         plugins: ['syntax-dynamic-import']        //динамическая подгрузка
                     }
                 }]
+            },
+            {
+                test: /\.css$/,
+                loader: 'style-loader!css-loader',
+                include: /node_modules/,
             },
             {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,   //обработчик изображений
@@ -38,15 +43,18 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),  //не менять файлы при ошибке
-
+        new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(ru)$/),
         new webpack.optimize.CommonsChunkPlugin({
-            name: 'vendor', // Specify the common bundle's name.
+            name: 'vendor',
+            filename: 'assets/js/vendor.[hash:3].js',
             minChunks: function (module) {
                 // this assumes your vendor imports exist in the node_modules directory
                 return module.context && module.context.indexOf('node_modules') !== -1;
             }
         }),
+
         new webpack.optimize.CommonsChunkPlugin({
             name: 'manifest', // Specify the common bundle's name.
         }),

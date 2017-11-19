@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "outDir": "./build/",
+        "module": "commonjs",
+        "target": "es5",
+        "sourceMap": true,
+        "noImplicitAny": false,
+        "experimentalDecorators": true,
+        "jsx": "react",
+        "lib": [
+            "DOM",
+            "es7",
+            "es6",
+            "ES2015",
+            "ScriptHost"
+        ],
+        "noUnusedLocals": true                 /* Report errors on unused locals. */
+        //"noUnusedParameters": true            /* Report errors on unused parameters. */
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "./src/index.tsx"
+    ]
+}

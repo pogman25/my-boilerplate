@@ -4,8 +4,8 @@
   "description": "Boilerplate, react, redux, webpack",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env=dev",
-    "build": "webpack --env=prod --progress --profile --colors",
+    "start": "webpack-dev-server --env=development",
+    "build": "webpack --env=production --progress --profile --colors",
     "clean": "rimraf ./build/*"
   },
   "keywords": [],
@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "autoprefixer": "^6.7.7",
+    "awesome-typescript-loader": "^3.3.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.2",
     "babel-loader": "^6.4.1",
@@ -37,6 +38,7 @@
     "sass-loader": "^6.0.3",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.3",
+    "webpack-bundle-analyzer": "^2.9.1",
     "webpack-dev-server": "^2.4.2",
     "webpack-merge": "^4.1.0"
   },
