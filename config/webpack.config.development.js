@@ -30,7 +30,12 @@ module.exports = Merge(commonConfig, {
                             loader: 'sass-loader'
                         }
                     ]
-                }
+                },
+                {
+                    test: /\.css$/,
+                    loader: 'style-loader!css-loader',
+                    include: /node_modules/,
+                },
             ]
         },
 

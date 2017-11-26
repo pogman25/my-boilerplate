@@ -11,42 +11,44 @@ module.exports = Merge(commonConfig, {
 
                 {
                     test: /\.scss$/,  //подключаем стили, при продакшине выгружаем в отдельный файл
+                    exclude: /node_modules/,
                     use: ExtractTextPlugin.extract({
-                        fallback: 'style-loader',
-                        loader: ['css-loader', 'postcss-loader', 'sass-loader'],
-                        publicPath: '/build'
+                        fallback: "style-loader",
+                        use: [
+                            {
+                                loader: 'css-loader',
+                                query: {
+                                    localIdentName: '[hash:base64:6]',
+                                    modules: true,
+                                }
+                            },
+                            {
+                                loader: 'postcss-loader'
+                            },
+                            {
+                                loader: 'sass-loader'
+                            }
+                        ]
                     })
+
+                },
+                {
+                    test: /\.css$/,
+                    use: ExtractTextPlugin.extract({
+                        fallback: "style-loader",
+                        use: ['css-loader','postcss-loader']
+                    }),
+                    include: /node_modules/,
                 }
             ]
         },
 
         plugins: [
-
-            new webpack.LoaderOptionsPlugin({
-                minimize: true,
-                options: {
-                    postcss: [
-                        autoprefixer({          //префиксер для css
-                            browsers: [
-                                '>1%',
-                                'last 4 versions',
-                                'Firefox ESR',
-                                'not ie < 9', // React doesn't support IE8 anyway
-                            ]
-                        })
-                    ]
-                }
-            }),
-
-            new webpack.DefinePlugin({
-                'process.env': {
-                    'NODE_ENV': JSON.stringify('production')
-                }
-            }),
-
+            
             new ExtractTextPlugin({
-                filename: "[name].css",
-                allChunks: true}),
+                filename:  getPath => getPath('[name][hash:5].css'),
+                allChunks: true
+            }),
 
             new webpack.optimize.UglifyJsPlugin({
                 sourceMap: true,

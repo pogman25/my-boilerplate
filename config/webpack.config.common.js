@@ -25,15 +25,9 @@ module.exports = {
                 use: [{
                     loader: 'babel-loader!awesome-typescript-loader',
                     options: {
-                        presets: [['es2015', {modules: false}], 'react'],
-                        plugins: ['syntax-dynamic-import']        //динамическая подгрузка
+                        presets: [['es2015', {modules: false}], 'react']
                     }
                 }]
-            },
-            {
-                test: /\.css$/,
-                loader: 'style-loader!css-loader',
-                include: /node_modules/,
             },
             {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,   //обработчик изображений
@@ -43,6 +37,12 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.optimize.ModuleConcatenationPlugin(),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': JSON.stringify('production')
+            }
+        }),
         new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),  //не менять файлы при ошибке
         new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(ru)$/),
