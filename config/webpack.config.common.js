@@ -1,16 +1,16 @@
 const webpack = require('webpack');
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: {        //две точки входа
-        app: './src/app.js',
-        index: './src/index.js',
+    resolve: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.css', '.scss'],
+        modules: ['node_modules']
     },
-
     output: {
-        filename: '[name].js',
-        path: path.join(__dirname, '/../build')
+        path: path.join(__dirname, '../build'),
+        filename: path.join('assets', 'js', '[name].[hash:3].js'),
+        chunkFilename: '[name].[hash:3].chunk.js',
+        publicPath: '/',
     },
 
     module: {
@@ -20,19 +20,27 @@ module.exports = {
                 use: 'pug-loader'
             },
             {
-                test: /\.(ts|tsx)$/,          //подключаем js
-                exclude: /node_modules/,
-                use: [{
-                    loader: 'babel-loader!awesome-typescript-loader',
-                    options: {
-                        presets: [['es2015', {modules: false}], 'react']
-                    }
-                }]
-            },
-            {
                 test: /\.(png|jpg|jpeg|svg|gif)$/,   //обработчик изображений
                 use: 'file-loader?name=images/[name].[ext]'
-            }
+            },
+            {
+                test: /\.(eot|ttf|woff|woff2)$/,
+                loader: 'file-loader?context=' + '&name=assets/fonts/[name].[hash].[ext]',
+            },
+            {
+                test: /\.(svg|jpg|png|gif)$/,
+                loaders: 'file-loader?context=' + '&name=assets/img/[name].[hash].[ext]',
+                exclude: /favicons/,
+            },
+            {
+                test: /\.(svg|png|xml|ico|json)$/,
+                loaders: 'file-loader?name=[name].[ext]',
+                include: /favicons/,
+            },
+            {
+                test: /\.html$/,
+                loader: 'html-loader',
+            },
         ]
     },
 
@@ -43,7 +51,6 @@ module.exports = {
                 'NODE_ENV': JSON.stringify('production')
             }
         }),
-        new webpack.optimize.ModuleConcatenationPlugin(),
         new webpack.NoEmitOnErrorsPlugin(),  //не менять файлы при ошибке
         new webpack.ContextReplacementPlugin(/moment[\\/]locale$/, /^\.\/(ru)$/),
         new webpack.optimize.CommonsChunkPlugin({
@@ -54,29 +61,5 @@ module.exports = {
                 return module.context && module.context.indexOf('node_modules') !== -1;
             }
         }),
-
-        new webpack.optimize.CommonsChunkPlugin({
-            name: 'manifest', // Specify the common bundle's name.
-        }),
-
-
-        new HtmlWebpackPlugin({
-            title: 'My WebPack',
-            // minify: {
-            //     collapseWhitespace: true
-            // },
-            //filename: './../index.html', //put in root folder
-            hash: true,
-            excludeChunks: ['app'],
-            template: './src/index.pug', // Load a custom template (ejs by default see the FAQ for details)
-        }),
-
-        new HtmlWebpackPlugin({
-            title: 'Contact Page',
-            filename: 'app.html',
-            hash: true,
-            excludeChunks: ['index'],
-            template: './src/app.pug'
-        })
     ]
 };

@@ -2,13 +2,20 @@ const webpack = require('webpack');
 const Merge = require('webpack-merge');
 const path = require('path');
 const commonConfig = require('./webpack.config.common');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer = require('autoprefixer');
 
 module.exports = Merge(commonConfig, {
+        entry: {        
+            main: './src/index.tsx'
+        },
         module: {
             rules: [
-
+                {
+                    test: /\.tsx?$/,
+                    loader: 'awesome-typescript-loader',
+                    exclude: /node_modules/,
+                },
                 {
                     test: /\.scss$/,  //подключаем стили, при продакшине выгружаем в отдельный файл
                     exclude: /node_modules/,
@@ -48,6 +55,17 @@ module.exports = Merge(commonConfig, {
             new ExtractTextPlugin({
                 filename:  getPath => getPath('[name][hash:5].css'),
                 allChunks: true
+            }),
+
+            new HtmlWebpackPlugin({
+                title: 'My WebPack',
+                minify: {
+                    collapseWhitespace: true
+                },
+                filename: '../build/index.html',
+                hash: true,
+                inject: true,
+                template: './src/index.pug',
             }),
 
             new webpack.optimize.UglifyJsPlugin({
