@@ -1,6 +1,9 @@
+@import '../../../commonStyles/styles';
+
 .main {
-  font-size: 20px;
-  color: red;
+  height: 100vh;
+  min-height: 400px;
+  font-size: $main-font-size;
   h1 {
     font-weight: 300;
   }
