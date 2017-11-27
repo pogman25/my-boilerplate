@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const Merge = require('webpack-merge');
-const path = require('path');
 const commonConfig = require('./webpack.config.common');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -53,7 +52,7 @@ module.exports = Merge(commonConfig, {
         plugins: [
             
             new ExtractTextPlugin({
-                filename:  getPath => getPath('[name][hash:5].css'),
+                filename:  getPath => getPath('assets/css/[name][hash:5].css'),
                 allChunks: true
             }),
 
