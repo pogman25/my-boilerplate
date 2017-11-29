@@ -5,4 +5,4 @@ const data = {
     client_secret: '9f1d21a8b87b4bd88d5357f68dc10a27'
   };
 
-export const authURL = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data.client_id}`;
+export const authURL = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${data.client_id}&client_secret=${data.client_secret}`;
