@@ -30,15 +30,18 @@ export default reducer;
 
 // Action Creators
 
-export const logIn = () => ({
-    type: LOG_IN,
-    payload: true
-})
+export const logIn = (token: string) => {
+    localStorage.setItem('token', token);
+    return (dispatch: Function) => dispatch({
+        type: LOG_IN,
+        payload: true
+    })
+}
 
 export const logOut = () => {
     localStorage.clear();
-    return (dispatch: Function) => ({
+    return (dispatch: Function) => dispatch({
         type: LOG_OUT,
-        payload: true
+        payload: false
     })
 }

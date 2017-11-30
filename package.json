@@ -4,8 +4,8 @@
   "description": "Boilerplate, react, redux, webpack",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --env=development --progress --host localhost --port 3000 --open",
-    "build": "npm run clean && webpack --env=production --progress --profile --colors",
+    "start": "set NODE_ENV=development&& webpack-dev-server --env=development --progress --host localhost --port 3000 --open",
+    "build": "set NODE_ENV=production&& npm run clean && webpack --env=production --progress --profile --colors",
     "clean": "rimraf ./build/*"
   },
   "keywords": [],

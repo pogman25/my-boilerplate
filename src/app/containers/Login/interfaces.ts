@@ -1,3 +1,7 @@
 export interface ILoginDispatch {
-    authLogin: () => void;
+    authLogin: (token: string) => void;
+}
+
+export interface ILoginMapState {
+    
 }
