@@ -7,15 +7,14 @@ const styles = require('./styles');
 
 const mapStoreToProps = (store: any) => ({
 
-})
+});
 
 const mapDispatchToProps = (dispatch: Function): ILoginDispatch => ({
     authLogin: () => dispatch(authLogin())
-})
+});
 
 class Login extends React.Component<any, any> {
     render() {
-        const {authLogin} = this.props;
         return(
             <div className={styles.loginPage}>
                 <div>
@@ -25,10 +24,10 @@ class Login extends React.Component<any, any> {
                     здесь будут картинки
                 </div>
                 <div>
-                    <div
+                    <a
                         className={styles.authButton}
-                        onClick={authLogin}
-                    >Авторизоваться</div>
+                        href='https://oauth.yandex.ru/authorize?response_type=token&client_id=443eadf72ce14612a901a68f83588c90'
+                    >Авторизоваться</a>
                 </div>
             </div>
         )
