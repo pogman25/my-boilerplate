@@ -22,7 +22,6 @@ class Login extends React.Component<ILogin, any> {
 
     render() {
         const {location: {hash}, authLogin} = this.props;
-        console.log(location);
         if(/access_token=([^&]+)/.test(hash)) {
             const token = /access_token=([^&]+)/.exec(hash)[1];
             authLogin(token);

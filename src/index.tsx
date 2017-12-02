@@ -3,7 +3,7 @@ import * as ReactDOM from "react-dom";
 import {Provider} from "react-redux";
 import { BrowserRouter, Route } from 'react-router-dom';
 import {configureStore} from "./configureStore";
-import './commonStyles/styles';
+import './commonStyles/styles.scss';
 import App from "./app/containers/App";
 
 const store = configureStore();

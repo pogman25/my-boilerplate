@@ -3,6 +3,7 @@ $main-font-size: 10px;
 
 /* colors */
 $white: #fff;
+$black: #000;
 $gray: #333;
 $login_btn: rgb(50, 224, 108);
 
@@ -10,6 +11,11 @@ $login_btn: rgb(50, 224, 108);
     background-color: $gray;
 }
 
-#app {
+:global(#app) {
     font-family: Arial, Helvetica, sans-serif;
+    font-size: $main-font-size;
+    p {
+        margin: 0;
+        padding: 0;
+    }
 }
