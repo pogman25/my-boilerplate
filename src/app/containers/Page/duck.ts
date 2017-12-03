@@ -60,20 +60,10 @@ const routeFiles = (state = {}, action: IAction) => {
     }
 }
 
-const chosenFile = (state = {}, action: IAction) => {
-    switch(action.type) {
-        case DOWNLOAD_FILE:
-            return action.payload;
-        default:
-            return state;
-    }
-}
-
 const reducer = combineReducers<IPageReducer>({
     isFetching,
     profileInfo,
-    routeFiles,
-    chosenFile
+    routeFiles
 })
 
 export default reducer;
@@ -134,7 +124,7 @@ export function preDownLoad(path: string) {
             const responce = await reFetch.fetch().get(`disk/resources/download?path=${path}`);
             
             if(responce.status === 200) {
-                dispatch(downloadFile(responce.data))
+                dispatch(downloadFile())
             } else {
                 dispatch(requestFailure(responce.data))
             }
@@ -168,7 +158,6 @@ const requestFailure = (error) => ({
     payload: error
 })
 
-const downloadFile = (answer: any) => ({
-    type: DOWNLOAD_FILE,
-    payload: answer
+const downloadFile = () => ({
+    type: DOWNLOAD_FILE
 })

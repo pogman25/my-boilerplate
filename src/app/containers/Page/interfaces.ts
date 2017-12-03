@@ -8,7 +8,6 @@ export interface IPageReducer {
     isFetching: boolean;
     profileInfo: IProfileInfo;
     routeFiles: any;
-    chosenFile: any;
 }
 
 export interface IPageState {

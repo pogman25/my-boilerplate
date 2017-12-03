@@ -2,6 +2,7 @@ import *as React from 'react';
 import {Link} from 'react-router-dom';
 
 const folderPic = require('../../../images/folder.png');
+const fileIcon = require('../../../images/document.svg');
 const styles = require('./styles');
 
 export default class FolderItem extends React.Component<any, any>{
@@ -46,9 +47,9 @@ export default class FolderItem extends React.Component<any, any>{
                     className={styles.file}
                 >
                     {!!chosenFile ?
-                        <div>
+                        <div className={styles.preview}>
                             <img
-                                src={data.preview}
+                                src={data.preview || fileIcon}
                                 alt="файл"
                                 onClick={this.resetDownLoad}
                             />
@@ -56,11 +57,13 @@ export default class FolderItem extends React.Component<any, any>{
                         </div>
                         
                         :
-                        <img
-                            src={data.preview}
+                        <div className={styles.preview}>
+                            <img
+                            src={data.preview || fileIcon}
                             alt="файл"
                             onClick={this.downLoad}
-                        />
+                            />
+                        </div>
                     }
                     <p>{data.name}</p>
                 </div>

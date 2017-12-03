@@ -17,6 +17,14 @@
     cursor: pointer;
     position: relative;
 
+    .preview {
+        max-width: 200px;
+    }
+
+    img {
+        max-width: 100%;
+    }
+
     a {
         position: absolute;
         right: 0;
