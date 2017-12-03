@@ -75,16 +75,34 @@ export function fetchDisk() {
         dispatch(receive());
 
         try {
-            const [responce, folders] = await Promise.all([
-                reFetch.fetch().get('/disk'),
-                reFetch.fetch().get('disk/resources?path=disk:/')
-            ])
+            const responce = await reFetch.fetch().get('/disk');
             
-            if(responce.status === 200 || folders.status === 200) {
+            if(responce.status === 200) {
                 dispatch(requestSuccess(responce.data))
-                dispatch(requestFolders(folders.data))
             } else {
                 dispatch(requestFailure(responce.data))
+            }
+
+        } catch(e) {
+            dispatch(requestFailure(e))
+            console.log(e);
+        }
+    }
+}
+
+export function fetchResource(url = '') {
+    console.log(url);
+    return async (dispatch: Function) => {
+        const reFetch = new ServiceAPI;
+
+        dispatch(receive());
+
+        try {
+            const folders = await reFetch.fetch().get(`disk/resources?path=disk:/${url}`);
+            
+            if(folders.status === 200) {
+                dispatch(requestFolders(folders.data))
+            } else {
                 dispatch(requestFailure(folders.data))
             }
 

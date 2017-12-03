@@ -17,7 +17,7 @@ const PublicRoute = ({ component: Component, permited, ...rest }) => (
         permited ? (
             <Component {...props}/>
         ) : (
-            <Redirect to='/'/>
+            <Redirect to='/disk'/>
         )
     )}/>
 );
@@ -41,8 +41,7 @@ class App extends React.Component<any, any> {
             <Switch>
                 <PrivateRoute
                     permited={isLogged}
-                    path="/"
-                    exact
+                    path="/disk"
                     component={Page}
                 />
                 <PublicRoute
@@ -52,7 +51,7 @@ class App extends React.Component<any, any> {
                 />
                 <Redirect
                     path="*"
-                    to="/"
+                    to="/disk"
                     />
             </Switch>
         </div>

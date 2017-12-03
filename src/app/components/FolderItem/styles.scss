@@ -1,0 +1,20 @@
+.folder, .file {
+    flex-basis: 200px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    p {
+        font-size: 1.4em;
+    }
+}
+
+.icon {
+    max-width: 150px;
+
+    img {
+        max-width: 100%;
+    }
+}

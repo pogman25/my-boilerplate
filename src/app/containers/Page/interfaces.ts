@@ -14,10 +14,11 @@ export interface IPageState {
     userName: string;
     totalSpace: number;
     usedSpace: number;
-    routeFiles: any;
+    folders: any;
 }
 
 export interface IPageDispatch {
     logOut: () => void;
     getMain: () => void;
+    getResource: (url?: string) => void;
 }

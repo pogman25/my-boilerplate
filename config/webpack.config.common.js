@@ -20,17 +20,19 @@ module.exports = {
                 use: 'pug-loader'
             },
             {
-                test: /\.(png|jpg|jpeg|svg|gif)$/,   //обработчик изображений
-                use: 'file-loader?name=images/[name].[ext]'
+                test: /\.(svg|png|jpg|gif)$/,
+                use: [
+                  {
+                    loader: 'file-loader',
+                    options: {
+                        name: 'images/[hash:6].[ext]'
+                    }  
+                  }
+                ]
             },
             {
                 test: /\.(eot|ttf|woff|woff2)$/,
-                loader: 'file-loader?context=' + '&name=assets/fonts/[name].[hash].[ext]',
-            },
-            {
-                test: /\.(svg|jpg|png|gif)$/,
-                loaders: 'file-loader?context=' + '&name=assets/img/[name].[hash].[ext]',
-                exclude: /favicons/,
+                loader: 'file-loader?context=' + '&name=assets/fonts/[name].[hash:6].[ext]',
             },
             {
                 test: /\.(svg|png|xml|ico|json)$/,
