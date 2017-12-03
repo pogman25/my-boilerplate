@@ -1,3 +1,5 @@
+@import '../../../commonStyles/styles';
+
 .folder, .file {
     flex-basis: 200px;
     color: #fff;
@@ -8,6 +10,27 @@
 
     p {
         font-size: 1.4em;
+    }
+}
+
+.file {
+    cursor: pointer;
+    position: relative;
+
+    a {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        text-decoration: none;
+        color: lighten($black, 25%);
+        background-color: transparentize($white, 0.25);
+        border-radius: 5px;
+        font-size: 1.4em;
+        padding: 5px 10px;
+
+        &:visited {
+            color: lighten($login_btn, 25%);
+        }
     }
 }
 

@@ -1,7 +1,7 @@
 import ServiceAPI from '../../../serviceAPI/index';
 import { IAction } from '../../../commonComponents/interfaces';
 import { combineReducers } from 'redux';
-import { IProfileInfo, IPageReducer } from './interfaces'
+import { IProfileInfo, IPageReducer } from './interfaces';
 
 const get = require('lodash/get');
 
@@ -11,6 +11,7 @@ const RECEIVE_INFO = `${prefix}RECEIVE_INFO`;
 const REQUEST_INFO_SUCCESS = `${prefix}REQUEST_INFO_SUCCESS`;
 const REQUEST_INFO_FAILURE = `${prefix}REQUEST_INFO_FAILURE`;
 const REQUEST_FOLDERS = `${prefix}REQUEST_FOLDERS`;
+const DOWNLOAD_FILE = `${prefix}DOWNLOAD_FILE`;
 
 // Reducers
 
@@ -21,6 +22,7 @@ const isFetching = (state = false, action: IAction): boolean => {
         case REQUEST_INFO_SUCCESS:
         case REQUEST_INFO_FAILURE:
         case REQUEST_FOLDERS:
+        case DOWNLOAD_FILE:
             return false;
         default:
             return state;
@@ -58,10 +60,20 @@ const routeFiles = (state = {}, action: IAction) => {
     }
 }
 
+const chosenFile = (state = {}, action: IAction) => {
+    switch(action.type) {
+        case DOWNLOAD_FILE:
+            return action.payload;
+        default:
+            return state;
+    }
+}
+
 const reducer = combineReducers<IPageReducer>({
     isFetching,
     profileInfo,
-    routeFiles
+    routeFiles,
+    chosenFile
 })
 
 export default reducer;
@@ -90,15 +102,14 @@ export function fetchDisk() {
     }
 }
 
-export function fetchResource(url = '') {
-    console.log(url);
+export function fetchResource(url = '/') {
     return async (dispatch: Function) => {
         const reFetch = new ServiceAPI;
 
         dispatch(receive());
 
         try {
-            const folders = await reFetch.fetch().get(`disk/resources?path=disk:/${url}`);
+            const folders = await reFetch.fetch().get(`disk/resources?path=disk:${!!url ? url : '/'}`);
             
             if(folders.status === 200) {
                 dispatch(requestFolders(folders.data))
@@ -109,6 +120,31 @@ export function fetchResource(url = '') {
         } catch(e) {
             dispatch(requestFailure(e))
             console.log(e);
+        }
+    }
+}
+
+export function preDownLoad(path: string) {
+    return async (dispatch: Function) => {
+        const reFetch = new ServiceAPI;
+
+        dispatch(receive());
+
+        try {
+            const responce = await reFetch.fetch().get(`disk/resources/download?path=${path}`);
+            
+            if(responce.status === 200) {
+                dispatch(downloadFile(responce.data))
+            } else {
+                dispatch(requestFailure(responce.data))
+            }
+
+            return responce.data;
+
+        } catch(e) {
+            dispatch(requestFailure(e))
+            console.log(e);
+            return e.status;
         }
     }
 }
@@ -130,4 +166,9 @@ const requestFolders = (body) => ({
 const requestFailure = (error) => ({
     type: REQUEST_INFO_FAILURE,
     payload: error
+})
+
+const downloadFile = (answer: any) => ({
+    type: DOWNLOAD_FILE,
+    payload: answer
 })

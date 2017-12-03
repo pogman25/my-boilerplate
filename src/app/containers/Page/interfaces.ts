@@ -8,6 +8,7 @@ export interface IPageReducer {
     isFetching: boolean;
     profileInfo: IProfileInfo;
     routeFiles: any;
+    chosenFile: any;
 }
 
 export interface IPageState {
@@ -21,4 +22,5 @@ export interface IPageDispatch {
     logOut: () => void;
     getMain: () => void;
     getResource: (url?: string) => void;
+    preDownLoad: (url: string) => void;
 }

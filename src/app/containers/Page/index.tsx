@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { logOut } from '../App/duck';
-import { fetchDisk, fetchResource } from './duck';
+import { fetchDisk, fetchResource, preDownLoad } from './duck';
 import Header from '../../components/Header';
 import Folder from '../../components/Folder';
 import { IStore } from '../../../reducers/interfaces';
@@ -22,7 +22,8 @@ const mapStoreToProps = (store: IStore): IPageState => ({
 const mapDispatchToProps = (dispatch: Function): IPageDispatch => ({
     logOut: () => dispatch(logOut()),
     getMain: () => dispatch(fetchDisk()),
-    getResource: (url?: string) => dispatch(fetchResource(url))
+    getResource: (url?: string) => dispatch(fetchResource(url)),
+    preDownLoad: (url: string) => dispatch(preDownLoad(url))
 });
 
 type IPage = IPageState & IPageDispatch & RouteProps;
@@ -35,7 +36,8 @@ class Page extends React.Component<IPage, any>{
         const {
             userName, totalSpace,
             usedSpace, folders,
-            logOut, getResource
+            logOut, getResource,
+            preDownLoad
         } = this.props;
         return (
             <div>
@@ -47,8 +49,27 @@ class Page extends React.Component<IPage, any>{
                 />
                 <main className={styles.main}>
                     <Switch>
-                        <Route exact path="/disk" render={props => <Folder {...props} getResource={getResource} folders={folders}/>} />
-                        <Route path="/disk/:path" render={props => <Folder {...props} getResource={getResource} folders={folders}/>} />
+                        <Route
+                            exact
+                            path="/disk"
+                            render={props => 
+                                <Folder
+                                    {...props}
+                                    getResource={getResource}
+                                    folders={folders}
+                                    preDownLoad={preDownLoad}
+                                />}
+                        />
+                        <Route
+                            path="/disk/:path"
+                            render={props =>
+                                <Folder
+                                    {...props}
+                                    getResource={getResource}
+                                    folders={folders}
+                                    preDownLoad={preDownLoad}
+                                />}
+                            />
                     </Switch>
                 </main>
             </div>

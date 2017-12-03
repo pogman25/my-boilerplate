@@ -8,19 +8,19 @@ const styles = require('./styles');
 export default class Folder extends React.Component<any, any> {
 
     componentWillMount() {
-        const {getResource, match: {params}} = this.props;
-        getResource(params.path);
+        const {getResource, location: {pathname} } = this.props;
+        getResource(pathname.replace(/^\/disk/, ''));
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.match.params.path !== nextProps.match.params.path) {
-            this.props.getResource(nextProps.match.params.path);
+        if(this.props.location.pathname !== nextProps.location.pathname) {
+            this.props.getResource(location.pathname.replace(/^\/disk/, ''));
         }
     }
 
     render() {
-        const {folders, match: {params}} = this.props;
-        console.log(folders, params.path);
+        const {folders, preDownLoad} = this.props;
+        
         return (
             <TransitionGroup
                 component='ul'
@@ -33,9 +33,8 @@ export default class Folder extends React.Component<any, any> {
                         className={styles.item}
                     >
                         <FolderItem
-                            type={i.type}
-                            name={i.name}
-                            preview={i.preview}
+                            data={i}
+                            preDownLoad={preDownLoad}
                         />
                     </AppearItem>
                 ))
