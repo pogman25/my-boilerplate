@@ -12,16 +12,32 @@
     font-size: 20px;
 }
 
+.mainPic {
+    width: 50%;
+    height: 250px;
+    max-width: 500px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .authButton {
     background-image: linear-gradient(to bottom, $login_btn 0%, lighten($login_btn, 10%) 100%);
     padding: 10px 20px;
     color: $white;
-    font-weight: 600;
+    font-weight: 400;
     text-transform: uppercase;
     border-radius: 10px;
     transition: box-shadow 0.3s;
     cursor: pointer;
     user-select: none;
+    text-decoration: none;
+
+    &:visited {
+        color: $white;
+    }
 
     &:hover {
         box-shadow: 3px 3px 9px 2px darken($login_btn, 5%);
