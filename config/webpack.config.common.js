@@ -31,15 +31,6 @@ module.exports = {
                 ]
             },
             {
-                test: /\.(eot|ttf|woff|woff2)$/,
-                loader: 'file-loader?context=' + '&name=assets/fonts/[name].[hash:6].[ext]',
-            },
-            {
-                test: /\.(svg|png|xml|ico|json)$/,
-                loaders: 'file-loader?name=[name].[ext]',
-                include: /favicons/,
-            },
-            {
                 test: /\.html$/,
                 loader: 'html-loader',
             },

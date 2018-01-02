@@ -18,7 +18,7 @@ module.exports = Merge(commonConfig, {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'react-hot-loader!awesome-typescript-loader',
+                loader: ['react-hot-loader/webpack', 'awesome-typescript-loader'],
                 exclude: /node_modules/,
             },
             {
