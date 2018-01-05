@@ -8,6 +8,7 @@ const get = require('lodash/get');
 // Actions
 const prefix = 'app/';
 export const RECEIVE_INFO = `${prefix}RECEIVE_INFO`;
+export const RECEIVE_FOLDER = `${prefix}RECEIVE_FOLDER`;
 const REQUEST_INFO_SUCCESS = `${prefix}REQUEST_INFO_SUCCESS`;
 const REQUEST_INFO_FAILURE = `${prefix}REQUEST_INFO_FAILURE`;
 const REQUEST_FOLDERS = `${prefix}REQUEST_FOLDERS`;
@@ -91,26 +92,26 @@ export default reducer;
 //     }
 // }
 
-export function fetchResource(url = '/') {
-    return async (dispatch: Function) => {
+// export function fetchResource(url = '/') {
+//     return async (dispatch: Function) => {
 
-        dispatch(receive());
+//         dispatch(receive());
 
-        try {
-            const folders = await myFetch.get(`disk/resources?path=disk:${!!url ? url : '/'}`);
+//         try {
+//             const folders = await myFetch.get(`disk/resources?path=disk:${!!url ? url : '/'}`);
             
-            if(folders.status === 200) {
-                dispatch(requestFolders(folders.data))
-            } else {
-                dispatch(requestFailure(folders.data))
-            }
+//             if(folders.status === 200) {
+//                 dispatch(requestFolders(folders.data))
+//             } else {
+//                 dispatch(requestFailure(folders.data))
+//             }
 
-        } catch(e) {
-            dispatch(requestFailure(e))
-            console.log(e);
-        }
-    }
-}
+//         } catch(e) {
+//             dispatch(requestFailure(e))
+//             console.log(e);
+//         }
+//     }
+// }
 
 export function preDownLoad(path: string) {
     return async (dispatch: Function) => {
@@ -140,12 +141,17 @@ export const receive = () => ({
     type: RECEIVE_INFO
 })
 
+export const fetchResource = (url = '/') => ({
+    type: RECEIVE_FOLDER,
+    url
+})
+
 export const requestSuccess = (body) => ({
     type: REQUEST_INFO_SUCCESS,
     payload: body
 })
 
-const requestFolders = (body) => ({
+export const requestFolders = (body) => ({
     type: REQUEST_FOLDERS,
     payload: body
 })
