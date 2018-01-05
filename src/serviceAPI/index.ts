@@ -13,7 +13,7 @@ const defaultParams = () => {
     baseURL: 'https://cloud-api.yandex.net/v1',
     headers: {
       "Content-Type": 'application/json',
-      "Authorization": `OAuth ${window.localStorage.getItem('token')}`
+      "Authorization": `OAuth ${localStorage.getItem('token')}`
     }
   })
 }
