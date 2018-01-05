@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { logOut } from '../App/duck';
-import { fetchDisk, fetchResource, preDownLoad } from './duck';
+import { fetchResource, preDownLoad, receive } from './duck';
 import Header from '../../components/Header';
 import Folder from '../../components/Folder';
 import { IStore } from '../../../reducers/interfaces';
@@ -21,9 +21,9 @@ const mapStoreToProps = (store: IStore): IPageState => ({
     
 const mapDispatchToProps = (dispatch: Function): IPageDispatch => ({
     logOut: () => dispatch(logOut()),
-    getMain: () => dispatch(fetchDisk()),
+    getMain: () => dispatch(receive()),
     getResource: (url?: string) => dispatch(fetchResource(url)),
-    preDownLoad: (url: string) => dispatch(preDownLoad(url))
+    preDownLoad: (url: string) => dispatch(preDownLoad(url)),
 });
 
 type IPage = IPageState & IPageDispatch & RouteProps;
@@ -32,12 +32,13 @@ class Page extends React.Component<IPage, any>{
     componentWillMount() {
         this.props.getMain();
     }
+    
     render() {
         const {
             userName, totalSpace,
             usedSpace, folders,
             logOut, getResource,
-            preDownLoad
+            preDownLoad, getMain
         } = this.props;
         return (
             <div>
@@ -47,6 +48,11 @@ class Page extends React.Component<IPage, any>{
                     totalSpace={totalSpace}
                     usedSpace={usedSpace}
                 />
+                <button
+                    onClick={getMain}
+                >
+                    рефреш
+                </button>
                 <main className={styles.main}>
                     <Switch>
                         <Route

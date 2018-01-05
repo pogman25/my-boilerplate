@@ -1,4 +1,4 @@
-import ServiceAPI from '../../../serviceAPI/index';
+import myFetch from '../../../serviceAPI/index';
 import { IAction } from '../../../commonComponents/interfaces';
 import { combineReducers } from 'redux';
 import { IProfileInfo, IPageReducer } from './interfaces';
@@ -7,7 +7,7 @@ const get = require('lodash/get');
 
 // Actions
 const prefix = 'app/';
-const RECEIVE_INFO = `${prefix}RECEIVE_INFO`;
+export const RECEIVE_INFO = `${prefix}RECEIVE_INFO`;
 const REQUEST_INFO_SUCCESS = `${prefix}REQUEST_INFO_SUCCESS`;
 const REQUEST_INFO_FAILURE = `${prefix}REQUEST_INFO_FAILURE`;
 const REQUEST_FOLDERS = `${prefix}REQUEST_FOLDERS`;
@@ -38,7 +38,7 @@ const init = {
     usedSpace: null
 }
 
-const profileInfo = (state=init, action: IAction): IProfileInfo => {
+const profileInfo = (state = init, action: IAction): IProfileInfo => {
     switch(action.type) {
         case REQUEST_INFO_SUCCESS:
             return {
@@ -70,36 +70,34 @@ export default reducer;
 
 // Action Creators
 
-export function fetchDisk() {
-    return async (dispatch: Function) => {
-        const reFetch = new ServiceAPI;
+// export function fetchDisk() {
+//     return async (dispatch: Function) => {
 
-        dispatch(receive());
+//         dispatch(receive());
 
-        try {
-            const responce = await reFetch.fetch().get('/disk');
+//         try {
+//             const responce = await myFetch.get('/disk');
             
-            if(responce.status === 200) {
-                dispatch(requestSuccess(responce.data))
-            } else {
-                dispatch(requestFailure(responce.data))
-            }
+//             if(responce.status === 200) {
+//                 dispatch(requestSuccess(responce.data))
+//             } else {
+//                 dispatch(requestFailure(responce.data))
+//             }
 
-        } catch(e) {
-            dispatch(requestFailure(e))
-            console.log(e);
-        }
-    }
-}
+//         } catch(e) {
+//             dispatch(requestFailure(e))
+//             console.log(e);
+//         }
+//     }
+// }
 
 export function fetchResource(url = '/') {
     return async (dispatch: Function) => {
-        const reFetch = new ServiceAPI;
 
         dispatch(receive());
 
         try {
-            const folders = await reFetch.fetch().get(`disk/resources?path=disk:${!!url ? url : '/'}`);
+            const folders = await myFetch.get(`disk/resources?path=disk:${!!url ? url : '/'}`);
             
             if(folders.status === 200) {
                 dispatch(requestFolders(folders.data))
@@ -116,12 +114,11 @@ export function fetchResource(url = '/') {
 
 export function preDownLoad(path: string) {
     return async (dispatch: Function) => {
-        const reFetch = new ServiceAPI;
 
         dispatch(receive());
 
         try {
-            const responce = await reFetch.fetch().get(`disk/resources/download?path=${path}`);
+            const responce = await myFetch.get(`disk/resources/download?path=${path}`);
             
             if(responce.status === 200) {
                 dispatch(downloadFile())
@@ -139,11 +136,11 @@ export function preDownLoad(path: string) {
     }
 }
 
-const receive = () => ({
+export const receive = () => ({
     type: RECEIVE_INFO
 })
 
-const requestSuccess = (body) => ({
+export const requestSuccess = (body) => ({
     type: REQUEST_INFO_SUCCESS,
     payload: body
 })
@@ -153,11 +150,16 @@ const requestFolders = (body) => ({
     payload: body
 })
 
-const requestFailure = (error) => ({
+export const requestFailure = (error) => ({
     type: REQUEST_INFO_FAILURE,
     payload: error
 })
 
 const downloadFile = () => ({
     type: DOWNLOAD_FILE
+})
+
+export const reset = () => ({
+    type: REQUEST_INFO_FAILURE,
+    payload: {}
 })

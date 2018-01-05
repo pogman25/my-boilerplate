@@ -3,6 +3,7 @@ import rootReducer from "../reducers";
 import { createLogger } from "redux-logger";
 import createSagaMiddleware, { END } from 'redux-saga';
 
+const thunk = require("redux-thunk").default;
 const sagaMiddleware = createSagaMiddleware();
 
 const logger = createLogger({
@@ -14,7 +15,7 @@ export const configureStore = () => {
             createStore(
                 rootReducer,
                 compose(
-                    applyMiddleware(sagaMiddleware, logger),
+                    applyMiddleware(thunk, sagaMiddleware, logger),
                     (window as any)["devToolsExtension"] ? (window as any)["devToolsExtension"]() : (f: Function) => f
                 )
             )
@@ -25,8 +26,11 @@ export const configureStore = () => {
                     applyMiddleware(sagaMiddleware)
                 )
             )
-    store['runSaga'] = sagaMiddleware.run;
-    store['close'] = () => store.dispatch(END)
 
-    return store;
+    return {
+        ...store,
+        runSaga: sagaMiddleware.run,
+        injectedSagas: {},
+        close: () => store.dispatch(END)
+    };
 };

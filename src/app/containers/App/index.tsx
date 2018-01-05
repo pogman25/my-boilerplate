@@ -5,6 +5,7 @@ import { getIsLogged } from './selectors';
 
 import Login from '../Login';
 import Page from '../Page';
+import Temp from '../../../modules/temp/containers/Temp'
 
 const styles = require('./styles.scss');
 
@@ -43,6 +44,11 @@ class App extends React.Component<any, any> {
                     permited={isLogged}
                     path="/disk"
                     component={Page}
+                />
+                <PrivateRoute
+                    permited={true}
+                    path="/templ"
+                    component={Temp}
                 />
                 <PublicRoute
                     permited={!isLogged}
