@@ -6,13 +6,15 @@
   "scripts": {
     "start": "set NODE_ENV=development&& webpack-dev-server --env=development --progress --host localhost --port 3000 --open",
     "build": "set NODE_ENV=production&& npm run clean && webpack --env=production --progress --profile --colors",
-    "clean": "rimraf ./build/*"
+    "clean": "rimraf ./build/*",
+    "test": "jest"
   },
   "keywords": [],
   "author": "SaPog",
   "license": "ISC",
   "devDependencies": {
     "@types/classnames": "^2.2.3",
+    "@types/jest": "^22.0.1",
     "@types/lodash": "^4.14.91",
     "@types/react": "^16.0.31",
     "@types/react-dom": "^16.0.3",
@@ -27,6 +29,7 @@
     "file-loader": "^1.1.6",
     "html-webpack-plugin": "^2.30.1",
     "image-webpack-loader": "^3.4.2",
+    "jest": "^22.0.4",
     "node-sass": "^4.7.2",
     "postcss-cssnext": "^3.0.2",
     "postcss-csso": "^3.0.0",
@@ -40,6 +43,7 @@
     "rimraf": "^2.6.2",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",
+    "ts-jest": "^22.0.0",
     "typescript": "^2.6.2",
     "webpack": "^3.10.0",
     "webpack-bundle-analyzer": "^2.9.1",
@@ -63,5 +67,31 @@
     "redux-saga": "^0.16.0",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "skipBabel": true
+      }
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!**/node_modules/**",
+      "!src/**/*.test.{ts,tsx}",
+      "!src/**/*/Loadable.{js,jsx}"
+    ]
   }
 }
