@@ -7,23 +7,25 @@ const get = require('lodash/get');
 
 // Actions
 const prefix = 'app/';
-export const RECEIVE_INFO = `${prefix}RECEIVE_INFO`;
-export const RECEIVE_FOLDER = `${prefix}RECEIVE_FOLDER`;
-const REQUEST_INFO_SUCCESS = `${prefix}REQUEST_INFO_SUCCESS`;
-const REQUEST_INFO_FAILURE = `${prefix}REQUEST_INFO_FAILURE`;
-const REQUEST_FOLDERS = `${prefix}REQUEST_FOLDERS`;
-const DOWNLOAD_FILE = `${prefix}DOWNLOAD_FILE`;
+export const actions = {
+    RECEIVE_INFO: `${prefix}RECEIVE_INFO`,
+    RECEIVE_FOLDER: `${prefix}RECEIVE_FOLDER`,
+    REQUEST_INFO_SUCCESS: `${prefix}REQUEST_INFO_SUCCESS`,
+    REQUEST_INFO_FAILURE: `${prefix}REQUEST_INFO_FAILURE`,
+    REQUEST_FOLDERS: `${prefix}REQUEST_FOLDERS`,
+    DOWNLOAD_FILE: `${prefix}DOWNLOAD_FILE`
+}
 
 // Reducers
 
-const isFetching = (state = false, action: IAction): boolean => {
+export const isFetching = (state = false, action: IAction): boolean => {
     switch(action.type) {
-        case RECEIVE_INFO:
+        case actions.RECEIVE_INFO:
             return true;
-        case REQUEST_INFO_SUCCESS:
-        case REQUEST_INFO_FAILURE:
-        case REQUEST_FOLDERS:
-        case DOWNLOAD_FILE:
+        case actions.REQUEST_INFO_SUCCESS:
+        case actions.REQUEST_INFO_FAILURE:
+        case actions.REQUEST_FOLDERS:
+        case actions.DOWNLOAD_FILE:
             return false;
         default:
             return state;
@@ -41,7 +43,7 @@ const init = {
 
 const profileInfo = (state = init, action: IAction): IProfileInfo => {
     switch(action.type) {
-        case REQUEST_INFO_SUCCESS:
+        case actions.REQUEST_INFO_SUCCESS:
             return {
                 user: action.payload.user,
                 totalSpace: action.payload.total_space,
@@ -54,7 +56,7 @@ const profileInfo = (state = init, action: IAction): IProfileInfo => {
 
 const routeFiles = (state = {}, action: IAction) => {
     switch(action.type) {
-        case REQUEST_FOLDERS:
+        case actions.REQUEST_FOLDERS:
             return get(action.payload, '_embedded', {});
         default:
             return state;
@@ -138,34 +140,34 @@ export function preDownLoad(path: string) {
 }
 
 export const receive = () => ({
-    type: RECEIVE_INFO
+    type: actions.RECEIVE_INFO
 })
 
 export const fetchResource = (url = '/') => ({
-    type: RECEIVE_FOLDER,
+    type: actions.RECEIVE_FOLDER,
     url
 })
 
 export const requestSuccess = (body) => ({
-    type: REQUEST_INFO_SUCCESS,
+    type: actions.REQUEST_INFO_SUCCESS,
     payload: body
 })
 
 export const requestFolders = (body) => ({
-    type: REQUEST_FOLDERS,
+    type: actions.REQUEST_FOLDERS,
     payload: body
 })
 
 export const requestFailure = (error) => ({
-    type: REQUEST_INFO_FAILURE,
+    type: actions.REQUEST_INFO_FAILURE,
     payload: error
 })
 
 const downloadFile = () => ({
-    type: DOWNLOAD_FILE
+    type: actions.DOWNLOAD_FILE
 })
 
 export const reset = () => ({
-    type: REQUEST_INFO_FAILURE,
+    type: actions.REQUEST_INFO_FAILURE,
     payload: {}
 })
