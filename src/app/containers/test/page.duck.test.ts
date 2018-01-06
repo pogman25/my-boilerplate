@@ -1,7 +1,9 @@
+import { takeLatest } from 'redux-saga/effects';
 import reducer, {
     receive, requestSuccess, isFetching,
     actions
 } from '../Page/duck';
+import fetchThrottle, {fetchInfo, fetchResource} from '../saga';
 
 describe('>>>  Test Page duck.ts action creators <<<', () => {
     test('test receive action creator', () => {
@@ -30,7 +32,7 @@ describe('>>> Test Page duck.ts reducer <<<', () => {
         routeFiles: {}
     };
     
-    test('test reducer', () => {
+    test('test combineReducers', () => {
         expect(reducer(base, {type: actions.RECEIVE_INFO, payload: ''})).toEqual({
             ...base,
             isFetching: true
@@ -40,6 +42,8 @@ describe('>>> Test Page duck.ts reducer <<<', () => {
                 login: 'Pog',
                 uid: 123456
             },
+            _embeded: {},
+            someOtherKeys: [],
             total_space: 1000,
             used_space: 500
         }
@@ -55,5 +59,13 @@ describe('>>> Test Page duck.ts reducer <<<', () => {
                 usedSpace: 500
             }
         })
+    })
+})
+
+describe('>>> Test Page saga.ts <<<', () => {
+    test('saga test', () => {
+        const gen = fetchThrottle();
+        expect(gen.next()).toEqual({done: false, value: takeLatest(actions.RECEIVE_INFO, fetchInfo)})
+        expect(gen.next()).toEqual({done: false, value: takeLatest(actions.RECEIVE_FOLDER, fetchResource)})
     })
 })
